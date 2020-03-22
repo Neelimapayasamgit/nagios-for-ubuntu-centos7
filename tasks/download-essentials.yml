@@ -1,0 +1,25 @@
+---
+  - name: Download the source to temp folder
+    get_url:
+        dest: "{{ nagios_code_location }}"
+        url: "https://github.com/NagiosEnterprises/nagioscore/archive/nagios-{{ nagios_version }}.tar.gz"
+    tags:
+        - nagios
+  - name: untar the code
+    unarchive:
+        src: "{{ nagios_code_location }}"
+        dest: "/tmp/"
+    tags:
+        - nagios
+  - name: Download the plugin to temp folder
+    get_url:
+        dest: "{{ nagios_plugin_location }}"
+        url: "https://github.com/nagios-plugins/nagios-plugins/archive/release-{{ nagios_plugin_version }}.tar.gz"
+    tags:
+        - plugin
+  - name: untar the plugin code
+    unarchive:
+        src: "{{ nagios_plugin_location }}"
+        dest: "/tmp/"
+    tags:
+        - plugin

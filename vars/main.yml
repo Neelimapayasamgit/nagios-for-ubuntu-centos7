@@ -1,0 +1,12 @@
+---
+# vars file for nagios-for-ubuntu-centos7
+    nagios_version: '4.4.5'
+    nagios_plugin_version: '2.2.1'
+    nagios_code_location: /tmp/nagioscore.tar.gz
+    nagios_plugin_location: /tmp/nagios-plugins.tar.gz
+    nagios_packages_install:
+     - install
+     - install-daemoninit
+     - install-commandmode
+     - install-config
+     - install-webconf

@@ -1,0 +1,26 @@
+        configure_var: " --with-httpd-conf=/etc/apache2/sites-enabled "
+        user_name: www-data
+        packages_install:
+          - autoconf
+          - gcc
+          - libc6
+          - make
+          - wget
+          - unzip
+          - apache2
+          - php
+          - libapache2-mod-php7.2
+          - libgd-dev
+          - libmcrypt-dev
+          - libssl-dev
+          - bc
+          - gawk
+          - dc
+          - build-essential
+          - snmp
+          - libnet-snmp-perl
+          - gettext
+        service_list:
+          - apache2
+          - nagios
+

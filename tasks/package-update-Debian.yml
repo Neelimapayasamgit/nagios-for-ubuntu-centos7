@@ -1,0 +1,3 @@
+- name: update cache for ubuntu
+  apt:
+    update_cache: yes

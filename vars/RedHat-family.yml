@@ -1,0 +1,24 @@
+        user_name: apache
+        configure_var: ""
+        packages_install:
+           - gcc
+           - glibc
+           - glibc-common
+           - wget
+           - unzip
+           - httpd
+           - gd
+           - gd-devel
+           - perl
+           - postfix
+           - make
+           - automake
+           - gettext
+           - autoconf
+           - openssl-devel
+           - net-snmp
+           - net-snmp-utils
+           - perl-Net-SNMP
+        service_list:
+           - httpd
+           - nagios

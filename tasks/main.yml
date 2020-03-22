@@ -1,0 +1,56 @@
+---
+# tasks file for nagios-for-ubuntu-centos7
+  - include: load-variables.yml
+  - include: "package-update-Debian.yml"
+    when: ansible_os_family == "Debian"
+  - name: install packages of os specific
+    package:
+        name: "{{ item }}"
+        state: present
+    loop: "{{ packages_install }}"
+  - include: download-essentials.yml
+  - name: Compile Code
+    shell:
+        cmd: sudo ./configure{{configure_var}}> configure.log && sudo make all > makeoutput.log
+    args:
+        chdir: "/tmp/nagioscore-nagios-{{ nagios_version }}/"
+    tags:
+        - nagios
+  - name: Create User and Group
+    shell:
+        cmd: sudo make install-groups-users > installgroups.log && sudo usermod -a -G nagios {{user_name}} > usermod.log
+    args:
+        chdir: "/tmp/nagioscore-nagios-{{ nagios_version }}/"
+    tags:
+        - nagios
+  - name: Install nagios specific binaries
+    shell:
+        cmd: sudo make "{{ item }}" > "{{ item }}".log
+    args:
+        chdir: "/tmp/nagioscore-nagios-{{ nagios_version }}/"
+    loop: "{{ nagios_packages_install }}"
+    tags:
+        - nagios
+  - include: ubuntu-apache-configfile.yml
+    when: ansible_os_family == "Debian"
+  - name: Install latest passlib with pip
+    pip: name=passlib
+    tags:
+        - nagios
+  - name: Create nagiosadmin user account
+    htpasswd:
+        path: /usr/local/nagios/etc/htpasswd.users # required. Path to the file that contains the usernames and passwords
+        name: nagiosadmin # required. User name to add or remove
+        password: nagiosadmin # not required. Password associated with user.,Must be specified if user does not exist yet.
+    tags:
+        - nagios
+    notify: start services
+  - name: Compile + Install
+    shell:
+        cmd: sudo ./tools/setup > setup.log && sudo ./configure > configue.log && sudo make > make.log && sudo make install
+    args:
+        chdir: "/tmp/nagios-plugins-release-{{ nagios_plugin_version }}/"
+    tags:
+        - plugin
+    notify: restart services
+

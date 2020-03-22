@@ -1,0 +1,8 @@
+---
+  - name: Install Apache Config Files
+    shell:
+        cmd: sudo a2enmod rewrite > a2enmodrewrite.log && sudo a2enmod cgi > cgi.log
+    args:
+        chdir: "/tmp/nagioscore-nagios-{{ nagios_version }}/"
+    tags:
+        - nagios

@@ -1,0 +1,16 @@
+---
+# handlers file for nagios-for-ubuntu-centos7
+  - name: start services
+    service:
+        name: "{{ item }}"
+        state: started
+        enabled: true
+    loop:
+        "{{ service_list }}"
+  - name: restart services
+    service:
+        name: "{{ item }}"
+        state: restarted
+        enabled: true
+    loop:
+        "{{ service_list }}"
